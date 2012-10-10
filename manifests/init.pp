@@ -1,9 +1,9 @@
 # == Class: bashrc
 #
-#This class manages the bashrc additions. 
-# 
+#This class manages the bashrc additions.
+#
 #At Present this consists of a module to dynamically alter the colors of the
-#user's prompt depending on Hiera parameters.   
+#user's prompt depending on Hiera parameters.
 #  Curently only for rhel variants
 #
 # === Parameters

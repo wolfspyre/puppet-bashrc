@@ -1,7 +1,7 @@
 # == Class: bashrc::promptcolor
 #
 #This class manages the bashrc colorification addition which will dynamically
-#alter the colors of the user's prompt depending on Hiera parameters.   
+#alter the colors of the user's prompt depending on Hiera parameters.
 #  Curently only for rhel variants
 #
 #See init.pp for parameters

@@ -1,6 +1,6 @@
 # == Class: bashrc::rhel
 #
-#This class manages the bashrc additions. 
+#This class manages the bashrc additions.
 # === Authors
 #
 # Wolf Noble <wnoble@datapipe.com>
@@ -15,7 +15,7 @@ class bashrc::rhel {
   File{} -> Anchor['bashrc::config::end']
   Exec{} -> Anchor['bashrc::config::end']
   $bashrcdir  = $bashrc::params::bashrcdir
-  file { "$bashrcdir":
+  file { $bashrcdir:
     ensure => directory,
     owner  => 'root',
     group  => 'root',
