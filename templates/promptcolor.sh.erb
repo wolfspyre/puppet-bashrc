@@ -1,0 +1,28 @@
+<% enablecolor = scope.lookupvar('bashrc::params::prompt_color_enable')
+ colone        = scope.lookupvar('bashrc::params::prompt_primary_color')
+ coltwo        = scope.lookupvar('bashrc::params::prompt_secondary_color')
+ pciprompt     = scope.lookupvar('bashrc::params::prompt_pci_switch')
+-%>
+reset=$(tput sgr0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+purple=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+colone=$<%= colone %>
+coltwo=$<%= coltwo %>
+<% if pciprompt -%>
+if [ $UID -eq 0 ]; then
+  export PS1="[\[$colone\]\u\[$white\]@PCI-\[$coltwo\]\h \W\[$reset\]]# "
+else
+  export PS1="[\[$colone\]\u\[$white\]@PCI-\[$coltwo\]\h \W\[$reset\]]\$ "
+fi
+<% else -%>
+if [ $UID -eq 0 ]; then
+  export PS1="[\[$colone\]\u\[$white\]@\[$coltwo\]\h \W\[$reset\]]# "
+else
+  export PS1="[\[$colone\]\u\[$white\]@\[$coltwo\]\h \W\[$reset\]]\$ "
+fi
+<% end-%>
