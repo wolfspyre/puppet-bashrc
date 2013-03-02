@@ -51,9 +51,7 @@
 #
 # Copyright 2012 Datapipe, unless otherwise noted.
 #
-Anchor['dpcore::end'] -> Anchor['bashrc::begin']
 class bashrc {
-    #take advantage of the Anchor pattern
   anchor{'bashrc::begin':}
   -> anchor {'bashrc::config::begin':}
   -> anchor {'bashrc::config::end':}
@@ -66,7 +64,7 @@ class bashrc {
       include bashrc::rhel
     }#end RHEL variant case
     default: {
-      notice "There is not currently a bashrc module for $::osfamily"
+      notice "There is not currently a bashrc module for ${::osfamily}"
     }#end default unsupported OS case
   }
 }#end of bashrc class
