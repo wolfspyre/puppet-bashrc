@@ -9,8 +9,8 @@
 #
 # Copyright 2012 Datapipe, unless otherwise noted.
 #
-Class['bashrc::rhel'] -> Anchor['bashrc::config::end']
 class bashrc::rhel {
+  Class['bashrc::rhel'] -> Anchor['bashrc::config::end']
   include bashrc::params #make our parameters local scope
   File{} -> Anchor['bashrc::config::end']
   Exec{} -> Anchor['bashrc::config::end']

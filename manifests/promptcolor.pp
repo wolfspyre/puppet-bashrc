@@ -14,8 +14,8 @@
 #
 # Copyright 2012 Datapipe, unless otherwise noted.
 #
-Class['bashrc::promptcolor'] -> Anchor['bashrc::config::end']
 class bashrc::promptcolor {
+  Class['bashrc::promptcolor'] -> Anchor['bashrc::config::end']
   include bashrc
   include bashrc::params
   $bashrcdir = $bashrc::params::bashrcdir
