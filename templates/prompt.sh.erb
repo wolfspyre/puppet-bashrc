@@ -1,0 +1,55 @@
+<%
+  gitcolor    = scope.lookupvar('bashrc::prompt_git_color')
+  enablecolor = scope.lookupvar('bashrc::prompt_color_enable')
+  enablegit   = scope.lookupvar('bashrc::prompt_git_enable')
+  colone      = scope.lookupvar('bashrc::prompt_primary_color')
+  coltwo      = scope.lookupvar('bashrc::prompt_secondary_color')
+  leftblock   = scope.lookupvar('bashrc::prompt_leftblock')
+  rightblock  = scope.lookupvar('bashrc::prompt_rightblock')
+  separator   = scope.lookupvar('bashrc::prompt_separator')
+-%>
+#!/bin/bash
+#
+#this file is responsible for setting the bash shell prompt for a user. it builds the prompt from values
+# fed to the bashrc module
+<% if enablecolor == true -%>
+#Enable Colors
+reset=$(tput sgr0)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+purple=$(tput setaf 5)
+cyan=$(tput setaf 6)
+white=$(tput setaf 7)
+colone=$<%= colone %>
+coltwo=$<%= coltwo %>
+<%   if enablegit == true -%>
+gitcol=$<%= gitcolor %>
+<%   end -%>
+<% #Color enabled
+  left="[\\[$colone\\]#{leftblock}"
+  middle="\\[$white\\]#{separator}"
+  if enablegit == true
+    right="\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]]"
+  else
+    right="\\[$coltwo\\]#{rightblock}\\[$reset\\]]"
+  end
+else
+#Color not enabled
+  left="#{leftblock}"
+  middle="#{separator}"
+  if enablegit == true
+    right="#{rightblock}]"
+  else
+    right="#{rightblock}\$(__git_ps1)]"
+   end
+end
+-%>
+
+
+if [ $UID -eq 0 ]; then
+  export PS1="<%= left -%><%=middle-%><%=right-%># "
+else
+  export PS1="<%= left -%><%=middle-%><%=right-%>\$ "
+fi

@@ -2,69 +2,72 @@
 #
 #This class manages the bashrc additions.
 #
-#At Present this consists of a module to dynamically alter the colors of the
-#user's prompt depending on Hiera parameters.
-#  Curently only for rhel variants
-#
-# === Parameters
-#
-#bashrc::params::
-#
-#
-#bashrc::params::bashrcdir
-#  Sets the location of the to be created rc directory
-#
-#bashrc::params::prompt_color_enable
-#  Whether or not to enable the colorization of the shell prompt
-#
-#bashrc::params::prompt_primary_color
-#  What color the first colorized portion of the prompt should be
-#
-#bashrc::params::prompt_secondary_color
-#  What color the second colorized portion of the prompt should be
-#
-#bashrc::params::puppetdir
-#  sets where puppet is installed by default. Necessary for template switcher via an inline template
-#
-#bashrc::params::skelfile
-#  Sets the location of the skeleton .bashrc file for new users
-#
-# === Variables
-#
-# Hiera varibles example.
-#
-#bashrc_prompt_color_enable:    'enabled'
-#bashrc_prompt_primary_color:   'blue'
-#bashrc_prompt_secondary_color: 'red'
-#bashrc_prompt_pci_switch:       false
-#
-# === Examples
-#
-#  class { bashrc:
-#  }
-#
-# === Authors
-#
-# Wolf Noble <wnoble@datapipe.com>
-#
-# === Copyright
-#
-# Copyright 2012 Datapipe, unless otherwise noted.
-#
-class bashrc {
+#Please see the README..md for
+class bashrc(
+  $bashrcdir              = $bashrc::params::bashrcdir,
+  $enable_git_completion  = $bashrc::params::enable_git_completion,
+  $enable_prompt_mods     = $bashrc::params::enable_prompt_mods,
+  $etcbashfile            = $bashrc::params::etcbashfile,
+  $prompt_color_enable    = $bashrc::params::prompt_color_enable,
+  $prompt_git_color       = $bashrc::params::prompt_git_color,
+  $prompt_git_enable      = $bashrc::params::prompt_git_enable,
+  $prompt_leftblock       = $bashrc::params::prompt_leftblock,
+  $prompt_primary_color   = $bashrc::params::prompt_primary,
+  $prompt_rightblock      = $bashrc::params::prompt_rightblock,
+  $prompt_secondary_color = $bashrc::params::prompt_secondary,
+  $prompt_separator       = $bashrc::params::prompt_separator,
+  $puppetdir              = $settings::confdir,
+  $skelfile               = $bashrc::params::skelfile,
+  )inherits bashrc::params {
+  #input validation
+  $supported_colors=['red','green','yellow','blue','purple','cyan','white']
+
+  validate_absolute_path($bashrcdir)
+  validate_absolute_path($etcbashfile)
+  validate_absolute_path($skelfile)
+
+  validate_bool($enable_git_completion)
+  validate_bool($enable_prompt_mods)
+  validate_bool($prompt_color_enable)
+  validate_bool($prompt_git_enable)
+
+  validate_re($prompt_primary_color,$supported_colors)
+  validate_re($prompt_secondary_color,$supported_colors)
+  if $prompt_git_enable {
+    validate_re($prompt_git_color,$supported_colors)
+  }
+
+  validate_string($prompt_leftblock)
+  validate_string($prompt_rightblock)
+  validate_string($prompt_separator)
+
   anchor{'bashrc::begin':}
   -> anchor {'bashrc::config::begin':}
   -> anchor {'bashrc::config::end':}
   -> anchor {'bashrc::end':}
-  class { 'bashrc::params': hiera_enabled => $::hiera_enabled }
-  $bashrcdir = $bashrc::params::bashrcdir
+
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    RedHat: {
-      include bashrc::rhel
-    }#end RHEL variant case
+    RedHat, Debian: {
+      include bashrc::setup
+    }#Supported OS case
     default: {
       notice "There is not currently a bashrc module for ${::osfamily}"
-    }#end default unsupported OS case
+    }#Unsupported OS case
+  }#end case
+  #prompt mods
+  if $enable_prompt_mods {
+    include bashrc::prompt
   }
-}#end of bashrc class
+  #bash_completion
+  if $enable_git_completion {
+    file {"${bashrcdir}/bash_completion.sh":
+      ensure  => file,
+      owner   => '0',
+      group   => '0',
+      mode    => '0555',
+      source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_completion.sh',
+    }
+  }
+
+}

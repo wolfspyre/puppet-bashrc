@@ -1,3 +1,3 @@
 name 'wolfspyre-bashrc'
-version '0.0.4'
+version '0.1.0'
 description "a module to add systemic bashrc changes"
