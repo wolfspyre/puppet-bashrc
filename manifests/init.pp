@@ -48,26 +48,27 @@ class bashrc(
 
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    RedHat, Debian: {
+    'RedHat', 'Debian': {
       include bashrc::setup
+      #prompt mods
+      if $enable_prompt_mods == true {
+        include bashrc::prompt
+      }
+
+      #bash_completion
+      if $enable_git_completion {
+        file {"${bashrcdir}/bash_completion.sh":
+          ensure  => 'file',
+          owner   => '0',
+          group   => '0',
+          mode    => '0555',
+          source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_completion.sh',
+        }
+      }
+
     }#Supported OS case
     default: {
       notice "There is not currently a bashrc module for ${::osfamily}"
     }#Unsupported OS case
   }#end case
-  #prompt mods
-  if $enable_prompt_mods {
-    include bashrc::prompt
-  }
-  #bash_completion
-  if $enable_git_completion {
-    file {"${bashrcdir}/bash_completion.sh":
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0555',
-      source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_completion.sh',
-    }
-  }
-
 }
