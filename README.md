@@ -87,7 +87,7 @@ Each submodule has default values in **bashrc::config**.
   Whether or not to put ps1 under puppet control
   * **enable_git_completion** *boolean*
 
-  Whether or not to deploy the git completion script to integrate git into tab awareness
+  Whether or not to deploy the git completion script to integrate git into tab awareness  
   https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
   * **prompt_color_enable** *boolean*
 
