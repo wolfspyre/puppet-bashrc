@@ -21,8 +21,7 @@ class bashrc::promptcolor {
   $bashrcdir = $bashrc::params::bashrcdir
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    RedHat: {
-      include bashrc::rhel
+    RedHat, SuSE: {
       file {'/etc/bashrc.d/promptcolor.sh':
         ensure  => file,
         owner   => '0',
