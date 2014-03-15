@@ -7,6 +7,7 @@
   leftblock   = scope.lookupvar('bashrc::prompt_leftblock')
   rightblock  = scope.lookupvar('bashrc::prompt_rightblock')
   separator   = scope.lookupvar('bashrc::prompt_separator')
+  pciprompt   = scope.lookupvar('bashrc::prompt_pci_switch')
 -%>
 #!/bin/bash
 #
@@ -31,7 +32,13 @@ gitcol=$<%= gitcolor %>
   left="[\\[$colone\\]#{leftblock}"
   middle="\\[$white\\]#{separator}"
   if enablegit == true
-    right="\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]]"
+    if pciprompt == true 
+      right="PCI-\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]]"
+    else
+      right="\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]]"
+    end
+  elsif pciprompt == true
+    right="PCI-\\[$coltwo\\]#{rightblock}\\[$reset\\]]"
   else
     right="\\[$coltwo\\]#{rightblock}\\[$reset\\]]"
   end

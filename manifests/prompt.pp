@@ -15,13 +15,11 @@
 #
 class bashrc::prompt {
   Class['bashrc::prompt'] -> Anchor['bashrc::config::end']
-  include bashrc
-  include bashrc::params
   $bashrcdir  = $bashrc::bashrcdir
   $git_prompt = $bashrc::prompt_git_enable
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    RedHat, Debian: {
+    RedHat, Debian, Suse: {
       file {"${bashrcdir}/prompt.sh":
         ensure  => file,
         owner   => '0',

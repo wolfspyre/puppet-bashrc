@@ -48,7 +48,7 @@ describe 'bashrc', :type => 'class' do
       end#colors context
     end#colors iterator
   end#input validator
-  ['Debian','RedHat'].each do |osfam|
+  ['Debian','RedHat','Suse'].each do |osfam|
     context "When on an #{osfam} system" do
       let (:facts) {{ 'osfamily' => osfam }}
       let (:params) {default_params}
@@ -70,8 +70,8 @@ describe 'bashrc', :type => 'class' do
           })
         end#bashrc.d dir
         it 'should contain the skelfile' do
-          should contain_file('/etc/skel/.bashrc').with({
-            :path=>"/etc/skel/.bashrc",
+          should contain_file('/ETC/SKELFILE').with({
+            :path=>"/ETC/SKELFILE",
             :ensure=>"file",
             :group=>"0",
             :mode=>"0644",
@@ -81,14 +81,14 @@ describe 'bashrc', :type => 'class' do
         it 'should contain the exec which appends our sourcing script to the bashrc file' do
           should contain_exec('bashrc_append').with({
             :command=>"/bin/echo 'for i in /#{osfam}/bashrcdir/*.sh ; do . $i >/dev/null 2>&1; done' >>/ETC/BASHFILE",
-            :unless=>"/bin/grep bashrc.d/\\*.sh /ETC/BASHFILE"
+            :unless=>"/bin/grep -q \"bashrc.d/\\*.sh\" /ETC/BASHFILE"
           })
         end#bashrc append exec
         if osfam == 'Debian'
           it 'should also contain the exec which appends our sourcing script to the bash_completion file' do
             should contain_exec('bash_completion_append').with({
               :command=>"/bin/echo 'for i in /Debian/bashrcdir/*.sh ; do . \$i >/dev/null 2>&1; done' >>/etc/bash_completion",
-              :unless=>"/bin/grep bashrc.d/\\\\*.sh /etc/bash_completion"
+              :unless=>"/bin/grep -q \"bashrc.d/\\\\*.sh\" /etc/bash_completion"
             })
           end#bash_completion append exec
         end#only on debian hack
