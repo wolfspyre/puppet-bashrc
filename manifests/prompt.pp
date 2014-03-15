@@ -15,8 +15,6 @@
 #
 class bashrc::prompt {
   Class['bashrc::prompt'] -> Anchor['bashrc::config::end']
-  include bashrc
-  include bashrc::params
   $bashrcdir  = $bashrc::bashrcdir
   $git_prompt = $bashrc::prompt_git_enable
   case $::osfamily {

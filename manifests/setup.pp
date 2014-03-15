@@ -4,11 +4,11 @@
 #
 class bashrc::setup {
   Class['bashrc::setup'] -> Anchor['bashrc::config::end']
-  include bashrc #make our parameters local scope
   File{} -> Anchor['bashrc::config::end']
   Exec{} -> Anchor['bashrc::config::end']
   $bashrcdir   = $bashrc::bashrcdir
   $etcbashfile = $bashrc::etcbashfile
+  $skelfile    = $bashrc::skelfile
   file { $bashrcdir:
     ensure => directory,
     owner  => 'root',
@@ -16,7 +16,7 @@ class bashrc::setup {
     mode   => '0555',
     purge  => true,
   }#end directory
-  file { '/etc/skel/.bashrc':
+  file { $skelfile:
     ensure  => 'file',
     group   => '0',
     mode    => '0644',
@@ -25,15 +25,18 @@ class bashrc::setup {
 
   exec { 'bashrc_append':
     command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>${etcbashfile}",
-    unless  => "/bin/grep bashrc.d/\\*.sh ${etcbashfile}",
+    unless  => "/bin/grep -q \"bashrc.d/\\*.sh\" ${etcbashfile}",
   }
   case $::osfamily {
     Debian: {
       #we need to add sourcing of bashrc.d to /etc/bash_completion to accomodate users already existing.
       exec { 'bash_completion_append':
         command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>/etc/bash_completion",
-        unless  => '/bin/grep bashrc.d/\\*.sh /etc/bash_completion',
+        unless  => '/bin/grep -q "bashrc.d/\\*.sh" /etc/bash_completion',
       }
+    }
+    default: {
+      #Make lint happy
     }
   }
 }#end of bashrc::setup class

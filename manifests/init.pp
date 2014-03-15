@@ -12,6 +12,7 @@ class bashrc(
   $prompt_git_color       = $bashrc::params::prompt_git_color,
   $prompt_git_enable      = $bashrc::params::prompt_git_enable,
   $prompt_leftblock       = $bashrc::params::prompt_leftblock,
+  $prompt_pci_switch      = $bashrc::params::prompt_pci_switch,
   $prompt_primary_color   = $bashrc::params::prompt_primary,
   $prompt_rightblock      = $bashrc::params::prompt_rightblock,
   $prompt_secondary_color = $bashrc::params::prompt_secondary,
