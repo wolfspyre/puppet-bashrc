@@ -75,6 +75,7 @@ Each submodule has default values in **bashrc::config**.
     bashrc::prompt_leftblock:       '\u'
     bashrc::prompt_rightblock:      '\h \W'
     bashrc::prompt_separator:       '@'
+    bashrc::prompt_pci_switch:      true
 ### Parameters
 
 * **bashrc** Class
@@ -99,6 +100,9 @@ Each submodule has default values in **bashrc::config**.
 
   What color the left portion of the prompt should be
   * **prompt_secondary_color** *string*
+
+  Whether to prepend 'PCI-' to bashrc::prompt_rightblock (for pci compliant machines)
+  * **prompt_pci_switch** *boolean*
 
   What color the right portion of the prompt should be
   * **puppetdir** *string* Supported options: ** red , green , yellow , blue , purple , cyan , white**
