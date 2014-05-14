@@ -24,7 +24,7 @@ class bashrc::setup {
   }
 
   file_line { 'bashrc_append':
-    line   => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>${etcbashfile}",
+    line   => "for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done",
     ensure => present,
     path   => "${etcbashfile}",
   }
