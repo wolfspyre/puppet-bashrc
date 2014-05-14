@@ -23,10 +23,12 @@ class bashrc::setup {
     owner   => '0',
   }
 
-  exec { 'bashrc_append':
-    command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>${etcbashfile}",
-    unless  => "/bin/grep bashrc.d/\\*.sh ${etcbashfile}",
+  file_line { 'bashrc_append':
+    line   => "for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done",
+    ensure => present,
+    path   => "${etcbashfile}",
   }
+  
   case $::osfamily {
     Debian: {
       #we need to add sourcing of bashrc.d to /etc/bash_completion to accomodate users already existing.
