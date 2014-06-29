@@ -30,9 +30,18 @@ class bashrc::setup {
   case $::osfamily {
     Debian: {
       #we need to add sourcing of bashrc.d to /etc/bash_completion to accomodate users already existing.
-      exec { 'bash_completion_append':
+      exec{ 'etc_bash_completion_append':
         command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>/etc/bash_completion",
         unless  => '/bin/grep bashrc.d/\\*.sh /etc/bash_completion',
+      }
+      #We also need to do this to /usr/share/bash-completion/bash_completion
+      exec{'usr_share_bash_completion_append':
+        command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>/usr/share/bash-completion/bash_completion",
+        unless  => '/bin/grep bashrc.d/\\*.sh /usr/share/bash-completion/bash_completion',
+      }
+      exec{'debuntu_roots_bashrc':
+        command => "/bin/echo 'for i in ${bashrcdir}/*.sh ; do . \$i >/dev/null 2>&1; done' >>/root/.bashrc",
+        unless  => '/bin/grep bashrc.d/\\*.sh /root/.bashrc',
       }
     }
   }
