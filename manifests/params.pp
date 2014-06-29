@@ -2,6 +2,7 @@ class bashrc::params {
   $puppetdir             = $settings::confdir
   $enable_git_completion = true
   $enable_prompt_mods    = true
+  $enable_svcstat        = true
   $prompt_color_enable   = true
   $prompt_git_color      = 'yellow'
   $prompt_git_enable     = true

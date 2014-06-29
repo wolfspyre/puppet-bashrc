@@ -43,6 +43,9 @@ This class manages additions to bashrc system-wide. This facilitates a means to 
   * `/etc/bashrc.d/prompt.sh`
   * /etc/bashrc.d/git_completion.sh`
   * /etc/bashrc.d/git_prompt.sh
+  * `/usr/local/etc/svcstat.conf`
+  * /usr/local/bin/svcstat.py
+  * `/etc/bashrc.d/svcstat.sh`
 
 ### Setup Requirements
  * **Required Classes**
@@ -75,6 +78,8 @@ Each submodule has default values in **bashrc::config**.
     bashrc::prompt_leftblock:       '\u'
     bashrc::prompt_rightblock:      '\h \W'
     bashrc::prompt_separator:       '@'
+    bashrc::enable_svcstat:         true
+    bashrc::svcstat_ini_hash:       undef
 ### Parameters
 
 * **bashrc** Class
@@ -88,6 +93,9 @@ Each submodule has default values in **bashrc::config**.
 
   Whether or not to deploy the git completion script to integrate git into tab awareness
   https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+  * **enable_svcstat** *bool*
+
+  Whether or not to enable the [svcstat](https://github.com/wolfspyre/python-svcstat) script. *default: true*
   * **prompt_color_enable** *boolean*
 
   Whether or not to enable the colorization of the shell prompt
@@ -107,12 +115,32 @@ Each submodule has default values in **bashrc::config**.
   * **skelfile** *string*
 
   Sets the location of the skeleton .bashrc file for new users
+  * **svcstat_ini_hash** *hash of hashes*/undef
+
+  for each key/value pair contained within this hash, an inifile resource will be declared. this will populate `/usr/local/etc/svcstat.conf`
+
+
 * **bashrc::prompt** class
 
+* **bashrc::svcstat** Class
+  * **binpath**    *absolute path* **default value:`/usr/local/bin`** the path to place svcstat.py
+  * **configpath** *absolute path* **default value:'/usr/local/etc/svcstat.conf'
+
+  The path to lay down the configfile for svcstat. This should not need to be changed.
+
+## Requirekments
+  * [puppetlabs-initfile](https://github.com/puppetlabs/puppetlabs-inifile)
 
 ## Reference
 
 ## Limitations
 
+
 ## Development
 Wolf Noble <wolf@wolfspyre.com>
+
+### Contributions
+
+Please fork this project, add your improvements, and submit a pull request. This way, we'll all get better tools
+### svcstat.py
+  * Please contribute to [svcstat.py here](https://github.com/wolfspyre/python-svcstat)

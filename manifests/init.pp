@@ -7,6 +7,7 @@ class bashrc(
   $bashrcdir              = $bashrc::params::bashrcdir,
   $enable_git_completion  = $bashrc::params::enable_git_completion,
   $enable_prompt_mods     = $bashrc::params::enable_prompt_mods,
+  $enable_svcstat         = $bashrc::params::enable_svcstat,
   $etcbashfile            = $bashrc::params::etcbashfile,
   $prompt_color_enable    = $bashrc::params::prompt_color_enable,
   $prompt_git_color       = $bashrc::params::prompt_git_color,
@@ -18,6 +19,7 @@ class bashrc(
   $prompt_separator       = $bashrc::params::prompt_separator,
   $puppetdir              = $settings::confdir,
   $skelfile               = $bashrc::params::skelfile,
+  $svcstat_ini_hash       = undef,
   )inherits bashrc::params {
   #input validation
   $supported_colors=['red','green','yellow','blue','purple','cyan','white']
@@ -30,6 +32,7 @@ class bashrc(
   validate_bool($enable_prompt_mods)
   validate_bool($prompt_color_enable)
   validate_bool($prompt_git_enable)
+  validate_bool($enable_svcstat)
 
   validate_re($prompt_primary_color,$supported_colors)
   validate_re($prompt_secondary_color,$supported_colors)
@@ -65,6 +68,9 @@ class bashrc(
           source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_completion.sh',
         }
       }
+
+      #svcstat
+      include bashrc::svcstat
 
     }#Supported OS case
     default: {
