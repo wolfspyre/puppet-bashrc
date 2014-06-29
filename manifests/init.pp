@@ -6,10 +6,10 @@
 class bashrc(
   $bashrcdir              = $bashrc::params::bashrcdir,
   $enable_git_completion  = $bashrc::params::enable_git_completion,
+  $enable_prompt_color    = $bashrc::params::enable_prompt_color,
   $enable_prompt_mods     = $bashrc::params::enable_prompt_mods,
   $enable_svcstat         = $bashrc::params::enable_svcstat,
   $etcbashfile            = $bashrc::params::etcbashfile,
-  $prompt_color_enable    = $bashrc::params::prompt_color_enable,
   $prompt_git_color       = $bashrc::params::prompt_git_color,
   $prompt_git_enable      = $bashrc::params::prompt_git_enable,
   $prompt_leftblock       = $bashrc::params::prompt_leftblock,
@@ -19,7 +19,7 @@ class bashrc(
   $prompt_separator       = $bashrc::params::prompt_separator,
   $puppetdir              = $settings::confdir,
   $skelfile               = $bashrc::params::skelfile,
-  $svcstat_ini_hash       = undef,
+  $svcstat_hash           = undef,
   )inherits bashrc::params {
   #input validation
   $supported_colors=['red','green','yellow','blue','purple','cyan','white']
@@ -30,7 +30,7 @@ class bashrc(
 
   validate_bool($enable_git_completion)
   validate_bool($enable_prompt_mods)
-  validate_bool($prompt_color_enable)
+  validate_bool($enable_prompt_color)
   validate_bool($prompt_git_enable)
   validate_bool($enable_svcstat)
 
@@ -52,9 +52,9 @@ class bashrc(
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
     'RedHat', 'Debian': {
-      include bashrc::setup
+      include ::bashrc::setup
       #prompt mods
-      if $enable_prompt_mods == true {
+      if $enable_prompt_mods {
         include bashrc::prompt
       }
 
@@ -70,7 +70,7 @@ class bashrc(
       }
 
       #svcstat
-      include bashrc::svcstat
+      include ::bashrc::svcstat
 
     }#Supported OS case
     default: {

@@ -1,6 +1,7 @@
 # == Class: bashrc::svcstat
-#  wrapper class
-#Class['bashrc::svcstat']
+#  Enables or disables the deployment of svcstat.
+#  Please see README.md for usage
+#
 class bashrc::svcstat(
   $binpath    = '/usr/local/bin/',
   $configpath = '/usr/local/etc/svcstat.conf',
@@ -11,34 +12,31 @@ class bashrc::svcstat(
   #make our parameters local scope
   include bashrc
   include bashrc::params
-  $bashrcdir = $bashrc::bashrcdir
-  $enable    = $::bashrc::svcstat_enable
-  $ini_hash  = $::bashrc::svcstat_ini_hash
+  $bashrcdir     = $bashrc::bashrcdir
+  $enable        = $bashrc::enable_svcstat
+  $services_hash = $bashrc::svcstat_hash
   #
   if $enable {
-    file {'bashrc::svcstat_conf':
-      ensure  => 'file',
-      mode    => '0444',
-      path    =>  $configpath,
-    }#end bashrc::svcstatd.conf file
     file{'bashrc::svcstat.py':
       ensure   => 'file',
       mode     => '0555',
       path     => "${binpath}/svcstat.py",
-      source   => 'puppet://modules/bashrc/usr/local/bin/svcstat.py',
+      source   => 'puppet:///modules/bashrc/usr/local/bin/svcstat.py',
     }
     file{'bashrc::svcstat.sh':
       path    => "${bashrcdir}/svcstat.sh",
-      content => "#!/bin/bash\r\npython ${binpath}/svcstat.py",
+      content => template("${module_name}/svcstat.sh.erb"),
       mode    => '0555',
     }
-    if $ini_hash {
-      $default_attrs= {
-        'path' => $configpath,
-        'key_val_separator' => ',',
-      }
-      create_resources(ini_setting,$ini_hash,$default_attrs)
-    }#end inihash if
+    if $services_hash {
+      validate_hash($services_hash)
+      file {'bashrc::svcstat_conf':
+        ensure  => 'file',
+        mode    => '0444',
+        path    =>  $configpath,
+        content => template("${module_name}/svcstat.conf.erb")
+      }#end bashrc::svcstatd.conf file
+    }#end hash if
 
   }#end should be present case
   else {

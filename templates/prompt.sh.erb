@@ -1,6 +1,6 @@
 <%
   gitcolor    = scope.lookupvar('bashrc::prompt_git_color')
-  enablecolor = scope.lookupvar('bashrc::prompt_color_enable')
+  enablecolor = scope.lookupvar('bashrc::enable_prompt_color')
   enablegit   = scope.lookupvar('bashrc::prompt_git_enable')
   colone      = scope.lookupvar('bashrc::prompt_primary_color')
   coltwo      = scope.lookupvar('bashrc::prompt_secondary_color')
@@ -31,9 +31,9 @@ gitcol=$<%= gitcolor %>
   left="[\\[$colone\\]#{leftblock}"
   middle="\\[$white\\]#{separator}"
   if enablegit == true
-    right="\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]]"
+    right="\\[$coltwo\\]#{rightblock}\\[$gitcol\\]\\$(__git_ps1)\\[$reset\\]"
   else
-    right="\\[$coltwo\\]#{rightblock}\\[$reset\\]]"
+    right="\\[$coltwo\\]#{rightblock}\\[$reset\\]"
   end
 else
 #Color not enabled
@@ -49,7 +49,7 @@ end
 
 
 if [ $UID -eq 0 ]; then
-  export PS1="<%= left -%><%=middle-%><%=right-%># "
+  export PS1="$red<%= left -%><%=middle-%><%=right-%>$red]$reset# "
 else
-  export PS1="<%= left -%><%=middle-%><%=right-%>\$ "
+  export PS1="<%= left -%><%=middle-%><%=right-%>]\$ "
 fi

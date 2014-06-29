@@ -43,7 +43,7 @@ from optparse import OptionParser
 #uname = os.uname()
 #print uname[0]
 def debug(message):
-    if hasattr(parser, 'options'):
+    if hasattr('options','debug'):
         if options.debug == True:
             print message
 

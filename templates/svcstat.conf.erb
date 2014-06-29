@@ -1,0 +1,11 @@
+<%
+fqdn = scope.lookupvar('::fqdn')
+services_hash = @services_hash
+-%>
+<% services_hash.each_pair do |key,hash| -%>
+<%  if hash['name'].length >0 -%>
+<%=  hash['name']-%>,<%=hash['string']%>
+<%  else -%>
+<%=    hash['string']%>
+<%  end-%>
+<%end-%>

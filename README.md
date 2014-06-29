@@ -70,7 +70,7 @@ Each submodule has default values in **bashrc::config**.
     bashrc::bashrcdir:              '/etc/bashrc.d'
     bashrc::enable_git_completion:  true
     bashrc::enable_prompt_mods:     true
-    bashrc::prompt_color_enable:    true
+    bashrc::enable_prompt_color:    true
     bashrc::prompt_git_color:       true
     bashrc::prompt_git_enable:      true
     bashrc::prompt_primary_color:   blue
@@ -96,7 +96,7 @@ Each submodule has default values in **bashrc::config**.
   * **enable_svcstat** *bool*
 
   Whether or not to enable the [svcstat](https://github.com/wolfspyre/python-svcstat) script. *default: true*
-  * **prompt_color_enable** *boolean*
+  * **enable_prompt_color** *boolean*
 
   Whether or not to enable the colorization of the shell prompt
   * **prompt_git_color** *string*
