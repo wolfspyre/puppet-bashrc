@@ -1,16 +1,16 @@
 # == Class: bashrc::promptc
 #
 #This class manages the bashrc ps1.
-# - colorification additios which will dynamically
-# alter the colors of the user's prompt depending on Hiera parameters.
+# - colorification additions which will dynamically alter the colors of the
+# user's prompt depending on Hiera parameters.
 #
 # - git branch awareness
 #
-# left variable block
+# left variable block   ( bashrc::prompt_leftblock )
 #
-# Seperator charater(s)
+# Seperator charater(s) ( bashrc::separator )
 #
-# right variable block
+# right variable block  ( bashrc::prompt_rightblock )
 #
 #
 class bashrc::prompt {
@@ -36,7 +36,7 @@ class bashrc::prompt {
           owner   => '0',
           group   => '0',
           mode    => '0555',
-          source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_prompt.sh',
+          source  => 'puppet:///modules/bashrc/etc/profile.d/git_prompt.sh',
         }
       }
     }#Supported OS case

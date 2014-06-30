@@ -7,6 +7,7 @@
   leftblock   = scope.lookupvar('bashrc::prompt_leftblock')
   rightblock  = scope.lookupvar('bashrc::prompt_rightblock')
   separator   = scope.lookupvar('bashrc::prompt_separator')
+  bashrcdir   = scope.lookupvar('bashrc::bashrcdir')
 -%>
 #!/bin/bash
 #
@@ -46,7 +47,14 @@ else
    end
 end
 -%>
-
+if [ -f ~/.bashrc ]; then
+  #we have a user-specific bashrc. Hook into it so we're confident we get run "last"
+  if [ `grep -c <%=bashrcdir-%>/prompt.sh ~/.bashrc` -lt 1 ]; then
+    #we don't seem to have already introduced ourselves to the user's bashrc file. Lets go introduce ourselves
+    echo '#set the prompt to include nice pretty colors. Courtesy of bashrc::prompt, most specifically <%=bashrcdir-%>/prompt.sh' >> ~/.bashrc
+    echo '. <%=bashrcdir-%>/prompt.sh' >> ~/.bashrc
+  fi
+fi
 
 if [ $UID -eq 0 ]; then
   export PS1="$red<%= left -%><%=middle-%><%=right-%>$red]$reset# "

@@ -12,7 +12,7 @@ class bashrc::params {
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
     Redhat: {
-      $bashrcdir          = '/etc/bashrc.d'
+      $bashrcdir          = '/etc/profile.d'
       $skelfile           = '/etc/skel/.bashrc'
       $etcbashfile        = '/etc/bashrc'
       $prompt_leftblock   = '\u'
@@ -21,7 +21,7 @@ class bashrc::params {
     }#RHEL variants
 
     Debian: {
-      $bashrcdir         = '/etc/bashrc.d'
+      $bashrcdir         = '/etc/profile.d'
       $skelfile          = '/etc/skel/.bashrc'
       $etcbashfile       =  '/etc/bash.bashrc'
       $prompt_leftblock  = '\u'
@@ -31,7 +31,7 @@ class bashrc::params {
 
     default: {
       #Sane-ish values for other OSes
-      $bashrcdir         = '/etc/bashrc.d'
+      $bashrcdir         = '/etc/profile.d'
       $skelfile          = '/etc/skel/.bashrc'
       $prompt_leftblock  = '\u'
       $prompt_rightblock = '\h \W'

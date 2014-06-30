@@ -65,7 +65,7 @@ class bashrc(
           owner   => '0',
           group   => '0',
           mode    => '0555',
-          source  => 'puppet:///modules/bashrc/etc/bashrc.d/git_completion.sh',
+          source  => 'puppet:///modules/bashrc/etc/profile.d/git_completion.sh',
         }
       }
 
