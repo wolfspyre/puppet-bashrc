@@ -24,7 +24,6 @@ This class manages additions to bashrc system-wide. This facilitates a means to 
 * The ability to display git branch statistics for the current branch
 
 #### Work-In-Progress functionality:
-* The ability to feed a script a list of servicenames, and their corresponding processnames to report the status, and number of processes at login.
 * The ability to feed a script a list of portnames, protocol, port number, and detail level to report on at login
 * The ability to feed a script a list of repositories, and their corresponding filesystem path. it can report the branch and status of the repository found at that location
   * GIT
@@ -146,7 +145,7 @@ Each submodule has default values in **bashrc::config**.
 
   The path to lay down the configfile for svcstat. This should not need to be changed.
 
-## Requirekments
+## Requirements
   * [puppetlabs-stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
 
 ## Reference
