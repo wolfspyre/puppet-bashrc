@@ -18,7 +18,7 @@ class bashrc(
   $prompt_secondary_color = $bashrc::params::prompt_secondary,
   $prompt_separator       = $bashrc::params::prompt_separator,
   $puppetdir              = $settings::confdir,
-  $skelfile               = $bashrc::params::skelfile,
+  $purge_bashrcdir        = $bashrc::params::purge_bashrcdir,
   $svcstat_hash           = undef,
   )inherits bashrc::params {
   #input validation
@@ -26,13 +26,13 @@ class bashrc(
 
   validate_absolute_path($bashrcdir)
   validate_absolute_path($etcbashfile)
-  validate_absolute_path($skelfile)
 
   validate_bool($enable_git_completion)
-  validate_bool($enable_prompt_mods)
   validate_bool($enable_prompt_color)
-  validate_bool($prompt_git_enable)
+  validate_bool($enable_prompt_mods)
   validate_bool($enable_svcstat)
+  validate_bool($prompt_git_enable)
+  validate_bool($purge_bashrcdir)
 
   validate_re($prompt_primary_color,$supported_colors)
   validate_re($prompt_secondary_color,$supported_colors)
@@ -44,6 +44,9 @@ class bashrc(
   validate_string($prompt_rightblock)
   validate_string($prompt_separator)
 
+  if $svcstat_hash {
+    validate_hash($svcstat_hash)
+  }
   anchor{'bashrc::begin':}
   -> anchor {'bashrc::config::begin':}
   -> anchor {'bashrc::config::end':}

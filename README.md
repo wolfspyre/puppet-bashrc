@@ -37,15 +37,15 @@ This class manages additions to bashrc system-wide. This facilitates a means to 
 
 ### What bashrc affects
 * **Directories**:
-  * /etc/bashrc.d
+  * /etc/profile.d
 * **Files**: `templated files are displayed like this`
   * `/etc/bashrc`
-  * `/etc/bashrc.d/prompt.sh`
-  * /etc/bashrc.d/git_completion.sh`
-  * /etc/bashrc.d/git_prompt.sh
+  * `/etc/profile.d/prompt.sh`
+  * /etc/profile.d/git_completion.sh
+  * /etc/profile.d/git_prompt.sh
   * `/usr/local/etc/svcstat.conf`
   * /usr/local/bin/svcstat.py
-  * `/etc/bashrc.d/svcstat.sh`
+  * `/etc/profile.d/svcstat.sh`
 
 ### Setup Requirements
  * **Required Classes**
@@ -61,38 +61,45 @@ This module is intended to be a foundation which can accept other extensions. Ea
 
 Each submodule has default values in **bashrc::config**.
 
-**bashrc::setup** is reponsible for the alterations to `/etc/bashrc` and the creation of `/etc/bashrc.d`
+**bashrc::setup** is reponsible for the alterations to `/etc/bashrc` and the creation of `/etc/profile.d`
 
 **bashrc::prompt** is responsible for prompt customizations like enabling or disabling and changing the colorization, enabling git branch awareness and enhancements.
 
 
-### Hiera Example
-    bashrc::bashrcdir:              '/etc/bashrc.d'
-    bashrc::enable_git_completion:  true
-    bashrc::enable_prompt_mods:     true
-    bashrc::enable_prompt_color:    true
-    bashrc::prompt_git_color:       true
-    bashrc::prompt_git_enable:      true
-    bashrc::prompt_primary_color:   blue
-    bashrc::prompt_secondary_color: red
-    bashrc::prompt_leftblock:       '\u'
-    bashrc::prompt_rightblock:      '\h \W'
-    bashrc::prompt_separator:       '@'
-    bashrc::enable_svcstat:         true
-    bashrc::svcstat_ini_hash:       undef
+### Hiera Example for example profile module
+
+    profile::bashrc::enable_git_completion:  true
+    profile::bashrc::enable_prompt_color:    true
+    profile::bashrc::enable_prompt_mods:     true
+    profile::bashrc::enable_svcstat:         true
+    profile::bashrc::prompt_git_color:       'cyan'
+    profile::bashrc::prompt_git_enable:      true
+    profile::bashrc::prompt_leftblock:       '\u'
+    profile::bashrc::prompt_primary_color:   'blue'
+    profile::bashrc::prompt_rightblock:      '\h \W'
+    profile::bashrc::prompt_secondary_color: 'green'
+    profile::bashrc::prompt_separator:       '@'
+    profile::bashrc::svcstat_hash:
+      apache: {
+        name:   'Apache',
+        string: 'apache2'
+      }
 ### Parameters
 
 * **bashrc** Class
-  * **bashrcdir** *string*
+  * **bashrcdir** *absolute path*
 
-  Sets the location of the to be created rc directory
-  * **enable_prompt_mods** *boolean*
-
-  Whether or not to put ps1 under puppet control
+  Sets the location of the directory to place our rcscripts. Set to /etc/profile.d for most Linux distros.
   * **enable_git_completion** *boolean*
 
   Whether or not to deploy the git completion script to integrate git into tab awareness
   https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+  * **enable_prompt_color** *boolean*
+
+  Whether or not to enable colorization of the shell prompt
+  * **enable_prompt_mods** *boolean*
+
+  Whether or not to put ps1 under puppet control
   * **enable_svcstat** *bool*
 
   Whether or not to enable the [svcstat](https://github.com/wolfspyre/python-svcstat) script. *default: true*
@@ -100,36 +107,47 @@ Each submodule has default values in **bashrc::config**.
 
   Whether or not to enable the colorization of the shell prompt
   * **prompt_git_color** *string*
+
+  The color to display the git branch in. Supported options: ** red , green , yellow , blue , purple , cyan , white**
   * **prompt_git_enable** *boolean*
 
   Whether or not to display git info of the working directory in the prompt
+  * **prompt_leftblock** *string*
+
+  What to set the left side of the prompt to. Reference the [TLDP bash PS1 variable guide](http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html) for inspiration
   * **prompt_primary_color** *string*
 
-  What color the left portion of the prompt should be
+  What color the left portion of the prompt should be. Supported options: ** red , green , yellow , blue , purple , cyan , white**
+  * **prompt_rightblock** *string*
+
+  What to set the right side of the prompt to. Reference the [TLDP bash PS1 variable guide](http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html) for inspiration
   * **prompt_secondary_color** *string*
 
-  What color the right portion of the prompt should be
-  * **puppetdir** *string* Supported options: ** red , green , yellow , blue , purple , cyan , white**
+  What color the right portion of the prompt should be. Supported options: ** red , green , yellow , blue , purple , cyan , white**
+  * **prompt_separator** *string*
 
+  The character(s) used to separate the left side of the prompt from the right. `default: '@'`
+  * **puppetdir** *string*
   Sets where puppet is installed by default. Necessary for template switcher via an inline template
-  * **skelfile** *string*
+  * **svcstat_hash** *hash of hashes*/undef
 
-  Sets the location of the skeleton .bashrc file for new users
-  * **svcstat_ini_hash** *hash of hashes*/undef
-
-  for each key/value pair contained within this hash, an inifile resource will be declared. this will populate `/usr/local/etc/svcstat.conf`
-
-
+  for each key/value pair contained within this hash, a line will be added to the /usr/local/etc/svcstat.conf file. The keys are:
+    * **name** This is the pretty name displayed for the service.
+    * **string** The string to search the process tree for to determine if the service is running.
 * **bashrc::prompt** class
 
+* **bashrc::setup** Class
+
 * **bashrc::svcstat** Class
-  * **binpath**    *absolute path* **default value:`/usr/local/bin`** the path to place svcstat.py
+  * **binpath**    *absolute path* **default value:`/usr/local/bin`**
+
+  The path to place svcstat.py. This should not need to be changed.
   * **configpath** *absolute path* **default value:'/usr/local/etc/svcstat.conf'
 
   The path to lay down the configfile for svcstat. This should not need to be changed.
 
 ## Requirekments
-  * [puppetlabs-initfile](https://github.com/puppetlabs/puppetlabs-inifile)
+  * [puppetlabs-stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
 
 ## Reference
 

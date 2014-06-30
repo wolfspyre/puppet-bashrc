@@ -24,17 +24,17 @@ class bashrc::svcstat(
       source   => 'puppet:///modules/bashrc/usr/local/bin/svcstat.py',
     }
     file{'bashrc::svcstat.sh':
-      path    => "${bashrcdir}/svcstat.sh",
       content => template("${module_name}/svcstat.sh.erb"),
       mode    => '0555',
+      path    => "${bashrcdir}/svcstat.sh",
     }
     if $services_hash {
       validate_hash($services_hash)
       file {'bashrc::svcstat_conf':
         ensure  => 'file',
+        content => template("${module_name}/svcstat.conf.erb"),
         mode    => '0444',
         path    =>  $configpath,
-        content => template("${module_name}/svcstat.conf.erb")
       }#end bashrc::svcstatd.conf file
     }#end hash if
 

@@ -8,23 +8,18 @@ class bashrc::setup {
   File{} -> Anchor['bashrc::config::end']
   Exec{} -> Anchor['bashrc::config::end']
   $bashrcdir   = $bashrc::bashrcdir
+  $purge       = $bashrc::purge_bashrcdir
   $etcbashfile = $bashrc::etcbashfile
   file { $bashrcdir:
     ensure => directory,
-    owner  => 'root',
     group  => 'root',
     mode   => '0555',
-    purge  => true,
+    owner  => 'root',
+    purge  => $purge,
   }#end directory
-  file { '/etc/skel/.bashrc':
-    ensure  => 'file',
-    group   => '0',
-    mode    => '0644',
-    owner   => '0',
-  }
   case $::osfamily {
-    RedHat: {}
-    Debian: {}
-    Default: {}
+    RedHat:  {}
+    Debian:  {}
+    default: {}
   }
 }#end of bashrc::setup class
