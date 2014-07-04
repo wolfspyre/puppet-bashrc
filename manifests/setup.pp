@@ -20,6 +20,7 @@ class bashrc::setup {
   case $::osfamily {
     RedHat:  {}
     Debian:  {}
+    Suse:    {}
     default: {}
   }
 }#end of bashrc::setup class
