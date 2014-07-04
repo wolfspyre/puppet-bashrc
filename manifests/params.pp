@@ -33,7 +33,7 @@ class bashrc::params {
     Suse: {
       $bashrcdir         = '/etc/profile.d'
       $skelfile          = '/etc/skel/.bashrc'
-      $etcbashfile       = '/etc/bashrc'
+      $etcbashfile       = '/etc/bash.bashrc.local'
       $prompt_leftblock  = '\u'
       $prompt_rightblock = '\h \W'
       $prompt_separator  = '@'
