@@ -59,7 +59,7 @@ describe 'bashrc', :type => :class do
   let (:default_params) {{
 
     }}
-  ['Debian'].each do |osfam|
+  ['Debian', 'Redhat', 'Suse'].each do |osfam|
     context "When on an #{osfam} system" do
       let (:facts) {{'osfamily' => osfam}}
       context 'when fed no parameters' do
@@ -130,39 +130,46 @@ describe 'bashrc', :type => :class do
       context 'when prompt_leftblock has a custom value' do
         it 'should update the left side of the prompt accordingly' do
           pending 'we should write this'
+          raise
         end
       end
       context 'when prompt_rightblock has a custom value' do
         it 'should update the right side of the prompt accordingly' do
           pending 'we should write this'
+          raise
         end
       end
       context 'when prompt_separator has a custom value' do
         it 'should update the separator of the prompt accordingly' do
           pending 'we should write this'
+          raise
         end
       end
       context 'when svcstat_hash has content' do
         context 'but it is not a hash' do
           it 'should fail' do
             pending 'we should write this'
+            raise
           end
         end
         context 'and it is a hash' do
           it 'should iterate through each element of the hash. it should support hash elements with only the \'string\' key set, and elements with \'name\' and ,\'string\' set'do
             pending 'we should write this'
+            raise
           end
         end
       end
       context 'when enable_git_completion is false' do
         it 'should not lay down the git completion script' do
           pending 'we should write this'
+          raise
         end
       end
       context 'when enable_prompt_color is false' do
         ['prompt_primary_color','prompt_secondary_color','prompt_git_color'].each do |prompt_decorator|
           it "should verify that the #{prompt_decorator} param does nothing" do
             pending 'we should write these'
+            raise
           end
         end
       end
@@ -173,16 +180,19 @@ describe 'bashrc', :type => :class do
       context 'when enable_svcstat is false' do
         it 'should not lay down svcstat files, and remove them if present' do
           pending 'we should write this'
+          raise
         end
       end
       context 'when prompt_git_enable is false' do
         it 'should not lay down the prompt_git shell script, and should remove them if present' do
             pending 'we should write this'
+            raise
           end
       end
       context 'when purge_bashrcdir is false' do
         it 'should not purge the directory' do
           pending 'we should write this'
+          raise
         end
       end
 
