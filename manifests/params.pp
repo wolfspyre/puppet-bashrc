@@ -30,6 +30,15 @@ class bashrc::params {
       $prompt_separator  = '@'
     }#debian variants
 
+    Suse: {
+      $bashrcdir         = '/etc/profile.d'
+      $skelfile          = '/etc/skel/.bashrc'
+      $etcbashfile       = '/etc/bash.bashrc.local'
+      $prompt_leftblock  = '\u'
+      $prompt_rightblock = '\h \W'
+      $prompt_separator  = '@'
+    }#SLES/SLED/OpenSuSE/SuSE
+
     default: {
       #Sane-ish values for other OSes
       $bashrcdir         = '/etc/profile.d'

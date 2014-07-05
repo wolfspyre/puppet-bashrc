@@ -54,7 +54,7 @@ class bashrc(
 
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    'RedHat', 'Debian': {
+    'RedHat', 'Debian', 'Suse': {
       include ::bashrc::setup
       #prompt mods
       if $enable_prompt_mods {

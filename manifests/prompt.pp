@@ -21,7 +21,7 @@ class bashrc::prompt {
   $git_prompt = $bashrc::prompt_git_enable
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
-    RedHat, Debian: {
+    RedHat, Debian, Suse: {
       file {"${bashrcdir}/prompt.sh":
         ensure  => file,
         owner   => '0',
