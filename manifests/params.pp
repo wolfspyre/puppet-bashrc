@@ -2,7 +2,7 @@ class bashrc::params {
   $enable_git_completion = true
   $enable_prompt_color   = true
   $enable_prompt_mods    = true
-  $enable_svcstat        = true
+  $enable_svcstat        = false
   $prompt_git_color      = 'yellow'
   $prompt_git_enable     = true
   $prompt_primary        = 'blue'
