@@ -1,5 +1,7 @@
 # Class: bashrc
 
+[![Build Status](https://travis-ci.org/wolfspyre/puppet-bashrc.svg?branch=master)](https://travis-ci.org/wolfspyre/puppet-bashrc)
+
 #### Table of Contents
 
 1. [Overview](#overview)
