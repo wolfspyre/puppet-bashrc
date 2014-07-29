@@ -89,7 +89,7 @@ describe 'bashrc', :type => :class do
           })
         end
 
-        it 'should lay down git-prompt.sh' do
+        it 'should not lay down git-prompt.sh' do
           should contain_file('/etc/profile.d/git-prompt.sh').with({
             :path=>"/etc/profile.d/git-prompt.sh",
             :ensure=>"file",
@@ -110,19 +110,16 @@ describe 'bashrc', :type => :class do
           })
         end
 
-        it 'should lay down svcstat.py' do
+        it 'should remove svcstat.py' do
           should contain_file('bashrc::svcstat.py').with({
             :path=>"/usr/local/bin//svcstat.py",
-            :ensure=>"file",
-            :mode=>"0555",
-            :source=>"puppet:///modules/bashrc/usr/local/bin/svcstat.py"
+            :ensure=>'absent',
           })
         end
-        it 'should lay down svcstat.sh' do
+        it 'should remove svcstat.sh' do
           should contain_file('bashrc::svcstat.sh').with({
             :path=>"/etc/profile.d/svcstat.sh",
-            :content=>"#!/bin/bash\npython /usr/local/bin//svcstat.py\n",
-            :mode=>"0555"
+            :ensure => 'absent'
           })
         end
       end#no params
@@ -177,10 +174,22 @@ describe 'bashrc', :type => :class do
 
       end
 
-      context 'when enable_svcstat is false' do
-        it 'should not lay down svcstat files, and remove them if present' do
-          pending 'we should write this'
-          raise
+      context 'when enable_svcstat is true' do
+        let (:params){{'enable_svcstat' => true}}
+        it 'should lay down svcstat.py' do
+          should contain_file('bashrc::svcstat.py').with({
+            :path=>"/usr/local/bin//svcstat.py",
+            :ensure=>"file",
+            :mode=>"0555",
+            :source=>"puppet:///modules/bashrc/usr/local/bin/svcstat.py"
+          })
+        end
+        it 'should lay down svcstat.sh' do
+          should contain_file('bashrc::svcstat.sh').with({
+            :path=>"/etc/profile.d/svcstat.sh",
+            :content=>"#!/bin/bash\npython /usr/local/bin//svcstat.py\n",
+            :mode=>"0555"
+          })
         end
       end
       context 'when prompt_git_enable is false' do
