@@ -57,7 +57,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 if [ $UID -eq 0 ]; then
-  export PS1="$red<%= left -%><%=middle-%><%=right-%>$red]$reset# "
+  export PS1="\[$red\]<%= left -%><%=middle-%><%=right-%>\[$red\]]\[$reset\]# "
 else
   export PS1="<%= left -%><%=middle-%><%=right-%>]\$ "
 fi
