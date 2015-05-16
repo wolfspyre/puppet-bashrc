@@ -15,14 +15,14 @@
 # fed to the bashrc module
 <% if enablecolor == true -%>
 #Enable Colors
-reset=$(tput sgr0)
-red=$(tput setaf 1)
-green=$(tput setaf 2)
-yellow=$(tput setaf 3)
-blue=$(tput setaf 4)
-purple=$(tput setaf 5)
-cyan=$(tput setaf 6)
-white=$(tput setaf 7)
+reset=$(tty -s && tput sgr0)
+red=$(tty -s && tput setaf 1)
+green=$(tty -s && tput setaf 2)
+yellow=$(tty -s && tput setaf 3)
+blue=$(tty -s && tput setaf 4)
+purple=$(tty -s && tput setaf 5)
+cyan=$(tty -s && tput setaf 6)
+white=$(tty -s && tput setaf 7)
 colone=$<%= colone %>
 coltwo=$<%= coltwo %>
 <%   if enablegit == true -%>
