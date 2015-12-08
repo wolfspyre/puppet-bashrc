@@ -41,9 +41,9 @@ else
   left="#{leftblock}"
   middle="#{separator}"
   if enablegit == true
-    right="#{rightblock}]"
+    right="#{rightblock}\$(__git_ps1)"
   else
-    right="#{rightblock}\$(__git_ps1)]"
+    right="#{rightblock}"
    end
 end
 -%>
